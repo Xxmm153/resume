@@ -1,0 +1,130 @@
+{
+  "app": {
+    "name": "Ximo Resume"
+  },
+  "theme": {
+    "label": "主题",
+    "toggle": "切换主题"
+  },
+  "nav": {
+    "github": "Github",
+    "start": "开始使用"
+  },
+  "hero": {
+    "badge": "AI 驱动的简历构建器",
+    "titlePrefix": "打造你的 ",
+    "titleHighlight": "完美简历",
+    "subtitle": "几分钟内创建专业、精美的简历。利用 AI 辅助写作和自动排版，让你的职业生涯更上一层楼。",
+    "startNow": "立即开始",
+    "browseTemplates": "浏览模板"
+  },
+  "whyChoose": {
+    "title": "为什么选择 Ximo Resume",
+    "subtitle": "不仅仅是一个编辑器，更是你的职业助手"
+  },
+  "features": {
+    "aiPowered": "AI 驱动",
+    "title": "智能功能助你脱颖而出",
+    "description": "利用最先进的 AI 技术，优化你的简历内容，检查语法错误，确保每一处细节都完美无缺。",
+    "polish": {
+      "title": "AI 润色",
+      "desc": "一键优化措辞，让表达更专业",
+      "alt": "AI 润色演示"
+    },
+    "grammar": {
+      "title": "语法检查",
+      "desc": "自动发现并修正语法错误",
+      "alt": "语法检查演示"
+    }
+  },
+  "faq": {
+    "title": "常见问题",
+    "items": [
+      {
+        "q": "Ximo Resume 是免费的吗？",
+        "a": "是的，目前 Ximo Resume 的所有基础功能均免费开放使用。"
+      },
+      {
+        "q": "我的数据安全吗？",
+        "a": "非常安全。您的简历数据仅保存在本地浏览器中，除非您选择云同步，否则我们不会上传您的任何个人信息。"
+      },
+      {
+        "q": "支持导出什么格式？",
+        "a": "支持导出高清 PDF 和 PNG 图片格式，方便打印和分享。"
+      }
+    ]
+  },
+  "cta": {
+    "title": "准备好开始了吗？",
+    "desc": "立即加入，使用 Ximo Resume 打造您的职业未来。",
+    "button": "免费创建简历"
+  },
+  "content": {
+    "sidebar": {
+      "logo": "Ximo Resume",
+      "myResume": "我的简历",
+      "templates": "模板库",
+      "aiProviders": "AI 服务",
+      "settings": "设置",
+      "collapse": "收起侧边栏",
+      "expand": "展开侧边栏"
+    },
+    "warning": {
+      "title": "注意",
+      "text": "您的简历数据存储在本地浏览器中。请勿清除浏览器缓存，否则数据将丢失。",
+      "action": "了解更多"
+    },
+    "dashboard": {
+      "title": "我的简历",
+      "back": "返回",
+      "share": "分享",
+      "exportPDF": "导出 PDF",
+      "exportImage": "导出图片",
+      "importJson": "导入 JSON",
+      "newResume": "新建简历",
+      "createNew": "创建新简历",
+      "createNewDesc": "从零开始或使用模板",
+      "created": "创建于",
+      "edit": "编辑",
+      "delete": "删除"
+    }
+  },
+  "editor": {
+    "sidebar": {
+      "layout": "布局",
+      "theme": "主题",
+      "typography": "排版",
+      "moduleManage": "模块排序与管理"
+    },
+    "sections": {
+      "basic": "基本信息",
+      "summary": "个人总结",
+      "experience": "工作经历",
+      "project": "项目经历",
+      "education": "教育经历",
+      "skills": "专业技能",
+      "custom": "自定义模块"
+    },
+    "fields": {
+      "name": "姓名",
+      "title": "职位 / 职称",
+      "email": "邮箱",
+      "phone": "电话",
+      "location": "所在地",
+      "website": "个人网站 / 作品集",
+      "avatar": "头像"
+    },
+    "actions": {
+      "addSection": "添加自定义模块",
+      "exportImage": "导出图片",
+      "switchLang": "切换语言",
+      "aiPolish": "AI 润色",
+      "confirmDelete": "确认删除该模块吗？",
+      "exportSuccess": "导出成功",
+      "exportFailed": "导出失败，请重试"
+    },
+    "placeholder": {
+      "selectSection": "请从左侧侧边栏选择一个模块，或点击右侧预览区域开始编辑"
+    }
+  }
+}
