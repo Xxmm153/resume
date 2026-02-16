@@ -8,7 +8,8 @@
   },
   "nav": {
     "github": "Github",
-    "start": "开始使用"
+    "start": "开始使用",
+    "backHome": "回到首页"
   },
   "hero": {
     "badge": "AI 驱动的简历构建器",
@@ -35,6 +36,19 @@
       "title": "语法检查",
       "desc": "自动发现并修正语法错误",
       "alt": "语法检查演示"
+    }
+  },
+  "security": {
+    "badge": "隐私安全",
+    "title": "数据安全，隐私优先",
+    "description": "所有简历数据完全存储在您的本地设备中，无需担心隐私泄露。支持数据导出备份，确保您的简历数据随时可用。",
+    "local": {
+      "title": "本地文件存储",
+      "desc": "简历数据安全存储在您的电脑硬盘中"
+    },
+    "export": {
+      "title": "多种导出格式",
+      "desc": "支持 PDF 和 JSON 格式导出"
     }
   },
   "faq": {
@@ -86,7 +100,8 @@
       "createNewDesc": "从零开始或使用模板",
       "created": "创建于",
       "edit": "编辑",
-      "delete": "删除"
+      "delete": "删除",
+      "confirmDelete": "确认删除该简历吗？"
     }
   },
   "editor": {
@@ -122,6 +137,43 @@
       "confirmDelete": "确认删除该模块吗？",
       "exportSuccess": "导出成功",
       "exportFailed": "导出失败，请重试"
+    },
+    "templates": {
+      "switch": "切换模板",
+      "title": "选择模板",
+      "subtitle": "为您的简历选择一个布局",
+      "use": "使用模板",
+      "names": {
+        "modern": "现代标准",
+        "classic": "经典居中",
+        "leftRight": "侧边栏",
+        "minimalist": "极简留白",
+        "professional": "专业商务"
+      },
+      "descriptions": {
+        "modern": "简洁专业，适合大多数岗位的标准布局",
+        "classic": "传统居中排版，优雅的衬线字体风格",
+        "leftRight": "左右分栏设计，左侧彩色侧边栏突出信息",
+        "minimalist": "大量留白设计，简约优雅，突出内容",
+        "professional": "粗体标题与强对比，适合资深或管理岗位"
+      },
+      "features": {
+        "standardLayout": "标准布局",
+        "professional": "专业",
+        "cleanDesign": "简洁设计",
+        "centeredHeader": "居中标题",
+        "serifTypography": "衬线字体",
+        "traditional": "传统",
+        "twoColumns": "双栏",
+        "sidebar": "侧边栏",
+        "creative": "创意",
+        "clean": "简洁",
+        "minimal": "极简",
+        "whitespace": "留白",
+        "bold": "粗体",
+        "impactful": "强对比",
+        "senior": "资深"
+      }
     },
     "placeholder": {
       "selectSection": "请从左侧侧边栏选择一个模块，或点击右侧预览区域开始编辑"

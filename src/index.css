@@ -44,6 +44,20 @@
   --color-primary-hover: var(--parimary-hover);
 }
 
+button,
+[role="button"],
+a,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

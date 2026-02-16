@@ -7,6 +7,7 @@ import polishImg from "../../common/img/home/polish.svg";
 import grammarImg from "../../common/img/home/grammar.svg";
 import exporFormatsImg from "../../common/img/home/export-formats.svg";
 import localImg from "../../common/img/home/local-storage.svg";
+import homePreviewImg from "../../common/img/home/image.png";
 //#endregion
 //#region  hadcn-ui
 import {
@@ -60,6 +61,12 @@ const Home = () => {
   const goContent = () => {
     router("/content");
   };
+  const goTemplates = () => {
+    router("/content/templates");
+  };
+  const goHome = () => {
+    router("/");
+  };
   return (
     <div className="w-full h-fit overflow-auto bg-background flex justify-center">
       <style>{`
@@ -72,7 +79,10 @@ const Home = () => {
         <div className="fixed top-0 left-0 bg-background/30 z-90 h-20 w-full flex justify-center backdrop-blur-xl text-foreground flex items-center justify-between">
           <div className="w-7/10 flex items-center justify-between">
             {/* Logo Section */}
-            <div className="flex items-center gap-3 cursor-pointer select-none">
+            <div
+              className="flex items-center gap-3 cursor-pointer select-none"
+              onClick={goHome}
+            >
               <div className="rounded-[5px] w-8 h-8  bg-primary  flex items-center justify-center text-primary-foreground font-bold text-lg shadow-lg shadow-primary/20">
                 X
               </div>
@@ -124,7 +134,7 @@ const Home = () => {
               />
               {/* GitHub Button */}
               <a
-                href="https://github.com"
+                href="https://github.com/Xxmm153/resume"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 px-4 py-1.5 rounded-2xl bg-card hover:bg-accent text-card-foreground border border-border transition-all text-sm font-medium group"
@@ -174,7 +184,10 @@ const Home = () => {
 
           {/* Buttons */}
           <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
-            <button className="group relative flex items-center gap-2 overflow-hidden rounded-2xl bg-foreground px-8 py-3.5 text-base font-semibold text-background transition-all hover:opacity-90 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] dark:hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]">
+            <button
+              onClick={goContent}
+              className="group relative flex items-center gap-2 overflow-hidden rounded-2xl bg-foreground px-8 py-3.5 text-base font-semibold text-background transition-all hover:opacity-90 hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] dark:hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)]"
+            >
               <span>{t("hero.startNow")}</span>
               <svg
                 className="w-4 h-4 transition-transform group-hover:translate-x-1"
@@ -191,7 +204,10 @@ const Home = () => {
               </svg>
             </button>
 
-            <button className="flex items-center gap-2 rounded-2xl border border-border bg-background/50 px-8 py-3.5 text-base font-medium text-foreground transition-all hover:bg-accent hover:text-accent-foreground backdrop-blur-sm">
+            <button
+              onClick={goTemplates}
+              className="flex items-center gap-2 rounded-2xl border border-border bg-background/50 px-8 py-3.5 text-base font-medium text-foreground transition-all hover:bg-accent hover:text-accent-foreground backdrop-blur-sm"
+            >
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
@@ -202,20 +218,13 @@ const Home = () => {
           {/* App Preview / Placeholder for next step */}
           <div className="mt-20 w-full max-w-5xl px-4">
             <div className="relative rounded-2xl border border-border bg-background/50 p-3 shadow-2xl backdrop-blur-xl">
-              <div className="aspect-[16/9] w-full   rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden relative group cursor-pointer">
-                {/* Fake UI for Preview */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-15 h-15 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/20 group-hover:scale-110 transition-transform">
-                    <svg
-                      className="w-8 h-8 text-white ml-1"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-background to-transparent"></div>
+              <div className="aspect-[16/9] w-full rounded-2xl overflow-hidden relative">
+                <img
+                  src={homePreviewImg}
+                  alt={t("hero.titleHighlight")}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-background/60 to-transparent"></div>
               </div>
             </div>
           </div>
@@ -415,19 +424,18 @@ const Home = () => {
                     <path d="M12 17v.01" />
                     <path d="M12 7v.01" />
                   </svg>
-                  {t("features.aiPowered")}
+                  {t("security.badge")}
                 </div>
 
                 <h3 className="text-3xl md:text-4xl font-bold text-foreground">
-                  {t("features.title")}
+                  {t("security.title")}
                 </h3>
 
                 <p className="text-muted-foreground text-lg leading-relaxed">
-                  {t("features.description")}
+                  {t("security.description")}
                 </p>
 
                 <div className="space-y-4">
-                  {/* Feature 1: Polish */}
                   <div
                     onClick={() => setActiveFeature(0)}
                     className={`group relative flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer overflow-hidden ${
@@ -440,10 +448,10 @@ const Home = () => {
                       <span
                         className={`font-semibold transition-colors ${activeFeature === 0 ? "text-primary" : "text-foreground"}`}
                       >
-                        {t("features.polish.title")}
+                        {t("security.local.title")}
                       </span>
                       <span className="text-sm text-muted-foreground">
-                        {t("features.polish.desc")}
+                        {t("security.local.desc")}
                       </span>
                     </div>
                     <svg
@@ -467,7 +475,6 @@ const Home = () => {
                     )}
                   </div>
 
-                  {/* Feature 2: Grammar */}
                   <div
                     onClick={() => setActiveFeature(1)}
                     className={`group relative flex items-center justify-between p-4 rounded-2xl border transition-all cursor-pointer overflow-hidden ${
@@ -480,10 +487,10 @@ const Home = () => {
                       <span
                         className={`font-semibold transition-colors ${activeFeature === 1 ? "text-primary" : "text-foreground"}`}
                       >
-                        {t("features.grammar.title")}
+                        {t("security.export.title")}
                       </span>
                       <span className="text-sm text-muted-foreground">
-                        {t("features.grammar.desc")}
+                        {t("security.export.desc")}
                       </span>
                     </div>
                     <svg
@@ -560,7 +567,10 @@ const Home = () => {
               </p>
 
               {/* Button */}
-              <button className="group relative flex items-center gap-2 overflow-hidden rounded-full bg-background px-8 py-3.5 text-base font-bold text-foreground transition-all hover:bg-muted hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+              <button
+                onClick={goContent}
+                className="group relative flex items-center gap-2 overflow-hidden rounded-full bg-background px-8 py-3.5 text-base font-bold text-foreground transition-all hover:bg-muted hover:shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+              >
                 <span>{t("cta.button")}</span>
                 <svg
                   className="w-4 h-4 transition-transform group-hover:translate-x-1"

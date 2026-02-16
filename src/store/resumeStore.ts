@@ -12,6 +12,7 @@ export type SectionType =
 
 export interface ResumeConfig {
   themeColor: string;
+  template: "modern" | "classic" | "leftRight" | "minimalist" | "professional";
   language: "zh" | "en";
   layout: {
     lineHeight: number;
@@ -69,6 +70,7 @@ interface ResumeState {
 
 const DEFAULT_CONFIG: ResumeConfig = {
   themeColor: "#000000",
+  template: "modern",
   language: "zh",
   layout: {
     lineHeight: 1.5,

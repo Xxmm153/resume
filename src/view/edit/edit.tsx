@@ -6,11 +6,13 @@ import {
   Download,
   Languages,
   Image as ImageIcon,
+  Home,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import LeftSidebar from "./components/LeftSidebar";
 import EditorArea from "./components/EditorArea";
 import RightPreview from "./components/RightPreview";
+import TemplateSwitcher from "./components/TemplateSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 const Edit = () => {
@@ -32,6 +34,13 @@ const Edit = () => {
     const newLang = i18n.language === "zh" ? "en" : "zh";
     i18n.changeLanguage(newLang);
     updateResumeConfig(resume.id, { language: newLang as "zh" | "en" });
+  };
+
+  const handleTemplateChange = (
+    template: "modern" | "classic" | "leftRight",
+  ) => {
+    if (!resume) return;
+    updateResumeConfig(resume.id, { template });
   };
 
   const createOnClone = (element: HTMLElement) => {
@@ -386,6 +395,13 @@ const Edit = () => {
       <header className="h-14 border-b border-border flex items-center justify-between px-4 bg-card shrink-0 z-10">
         <div className="flex items-center gap-4">
           <button
+            onClick={() => navigate("/")}
+            className="p-2 hover:bg-accent hover:text-accent-foreground rounded-full transition-colors text-muted-foreground"
+            title={t("nav.backHome", "Back to Home")}
+          >
+            <Home size={20} />
+          </button>
+          <button
             onClick={() => navigate("/content")}
             className="p-2 hover:bg-accent hover:text-accent-foreground rounded-full transition-colors text-muted-foreground"
             title={t("content.dashboard.back", "Back")}
@@ -451,6 +467,11 @@ const Edit = () => {
           onSelectSection={setSelectedSectionId}
         />
       </div>
+
+      <TemplateSwitcher
+        currentTemplate={resume.config.template || "modern"}
+        onSelectTemplate={handleTemplateChange}
+      />
     </div>
   );
 };

@@ -4,6 +4,10 @@ const HomeComponent = lazy(() => import("../view/home/home.tsx"));
 const NotFoundComponent = lazy(() => import("../view/404/404.tsx"));
 const Content = lazy(() => import("../view/content/content.tsx"));
 const Edit = lazy(() => import("../view/edit/edit.tsx"));
+const TemplateLibrary = lazy(
+  () => import("../view/templates/TemplateLibrary.tsx"),
+);
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,6 +24,16 @@ const router = createBrowserRouter([
         <Content />
       </Suspense>
     ),
+    children: [
+      {
+        path: "templates",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <TemplateLibrary />
+          </Suspense>
+        ),
+      },
+    ],
   },
   {
     path: "/edit/:id",
