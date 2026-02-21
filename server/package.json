@@ -1,0 +1,18 @@
+{
+  "name": "resume-ai-server",
+  "version": "1.0.0",
+  "description": "AI Polish backend for Resume Builder",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "koa": "^2.15.0",
+    "koa-router": "^12.0.1",
+    "koa-bodyparser": "^4.4.1",
+    "@koa/cors": "^5.0.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  }
+}

@@ -7,6 +7,7 @@ const Edit = lazy(() => import("../view/edit/edit.tsx"));
 const TemplateLibrary = lazy(
   () => import("../view/templates/TemplateLibrary.tsx"),
 );
+const AIConfigPage = lazy(() => import("../view/ai/AIConfig.tsx"));
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <TemplateLibrary />
+          </Suspense>
+        ),
+      },
+      {
+        path: "ai-providers",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <AIConfigPage />
           </Suspense>
         ),
       },

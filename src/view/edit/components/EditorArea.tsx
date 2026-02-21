@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -21,8 +21,10 @@ import {
   Image as ImageIcon,
   Palette,
   X,
+  Loader2,
 } from "lucide-react";
 import { type Resume, useResumeStore } from "../../../store/resumeStore";
+import AIPolishModal from "./AIPolishModal"; // Import Modal
 
 interface EditorAreaProps {
   resume: Resume;
@@ -31,167 +33,222 @@ interface EditorAreaProps {
 
 const MenuBar = ({ editor }: { editor: any }) => {
   const { t } = useTranslation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [originalText, setOriginalText] = useState("");
+  const { aiConfig } = useResumeStore();
+
   if (!editor) {
     return null;
   }
 
+  const handleOpenPolish = () => {
+    // Get selected text or full text if selection is empty
+    const { from, to, empty } = editor.state.selection;
+    let textToPolish = "";
+
+    if (empty) {
+      textToPolish = editor.getText();
+    } else {
+      textToPolish = editor.state.doc.textBetween(from, to, " ");
+    }
+
+    if (!textToPolish || textToPolish.trim().length === 0) return;
+
+    setOriginalText(textToPolish);
+    setIsModalOpen(true);
+  };
+
+  const handleApplyPolish = (newText: string) => {
+    const { empty } = editor.state.selection;
+
+    if (empty) {
+      // If no selection, replace everything (or insert at cursor?)
+      // Usually "Polish" on empty selection implies "Polish Document/Section"
+      editor.commands.setContent(newText);
+    } else {
+      // Replace selection
+      editor.commands.insertContent(newText);
+    }
+
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="flex flex-wrap items-center gap-1 p-2 border-b border-border bg-muted/20">
-      <button
-        onClick={() => editor.chain().focus().toggleBold().run()}
-        disabled={!editor.can().chain().focus().toggleBold().run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive("bold") ? "bg-muted text-primary" : ""
-        }`}
-        title="Bold"
-      >
-        <Bold size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleItalic().run()}
-        disabled={!editor.can().chain().focus().toggleItalic().run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive("italic") ? "bg-muted text-primary" : ""
-        }`}
-        title="Italic"
-      >
-        <Italic size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive("underline") ? "bg-muted text-primary" : ""
-        }`}
-        title="Underline"
-      >
-        <UnderlineIcon size={16} />
-      </button>
-
-      <div className="w-px h-6 bg-border mx-1" />
-
-      <button
-        onClick={() => editor.chain().focus().setTextAlign("left").run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive({ textAlign: "left" }) ? "bg-muted text-primary" : ""
-        }`}
-        title="Align Left"
-      >
-        <AlignLeft size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setTextAlign("center").run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive({ textAlign: "center" }) ?
-            "bg-muted text-primary"
-          : ""
-        }`}
-        title="Align Center"
-      >
-        <AlignCenter size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().setTextAlign("right").run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive({ textAlign: "right" }) ? "bg-muted text-primary" : ""
-        }`}
-        title="Align Right"
-      >
-        <AlignRight size={16} />
-      </button>
-
-      <div className="w-px h-6 bg-border mx-1" />
-
-      <div className="flex items-center gap-1">
-        <div className="relative flex items-center justify-center w-8 h-8 rounded hover:bg-muted transition-colors overflow-hidden">
-          <Palette size={16} className="absolute pointer-events-none" />
-          <input
-            type="color"
-            onInput={(event: any) =>
-              editor.chain().focus().setColor(event.target.value).run()
-            }
-            value={editor.getAttributes("textStyle").color || "#000000"}
-            className="opacity-0 w-full h-full cursor-pointer"
-            title="Text Color"
-          />
-        </div>
+    <>
+      <AIPolishModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        originalText={originalText}
+        onApply={handleApplyPolish}
+      />
+      <div className="flex flex-wrap items-center gap-1 p-2 border-b border-border bg-muted/20">
         <button
-          onClick={() => editor.chain().focus().unsetColor().run()}
-          className="p-2 rounded hover:bg-muted transition-colors"
-          title="Reset Color"
+          onClick={() => editor.chain().focus().toggleBold().run()}
+          disabled={!editor.can().chain().focus().toggleBold().run()}
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive("bold") ? "bg-muted text-primary" : ""
+          }`}
+          title="Bold"
         >
-          <X size={16} />
+          <Bold size={16} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+          disabled={!editor.can().chain().focus().toggleItalic().run()}
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive("italic") ? "bg-muted text-primary" : ""
+          }`}
+          title="Italic"
+        >
+          <Italic size={16} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleUnderline().run()}
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive("underline") ? "bg-muted text-primary" : ""
+          }`}
+          title="Underline"
+        >
+          <UnderlineIcon size={16} />
+        </button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive({ textAlign: "left" }) ?
+              "bg-muted text-primary"
+            : ""
+          }`}
+          title="Align Left"
+        >
+          <AlignLeft size={16} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive({ textAlign: "center" }) ?
+              "bg-muted text-primary"
+            : ""
+          }`}
+          title="Align Center"
+        >
+          <AlignCenter size={16} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive({ textAlign: "right" }) ?
+              "bg-muted text-primary"
+            : ""
+          }`}
+          title="Align Right"
+        >
+          <AlignRight size={16} />
+        </button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        <div className="flex items-center gap-1">
+          <div className="relative flex items-center justify-center w-8 h-8 rounded hover:bg-muted transition-colors overflow-hidden">
+            <Palette size={16} className="absolute pointer-events-none" />
+            <input
+              type="color"
+              onInput={(event: any) =>
+                editor.chain().focus().setColor(event.target.value).run()
+              }
+              value={editor.getAttributes("textStyle").color || "#000000"}
+              className="opacity-0 w-full h-full cursor-pointer"
+              title="Text Color"
+            />
+          </div>
+          <button
+            onClick={() => editor.chain().focus().unsetColor().run()}
+            className="p-2 rounded hover:bg-muted transition-colors"
+            title="Reset Color"
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        <button
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive("bulletList") ? "bg-muted text-primary" : ""
+          }`}
+          title="Bullet List"
+        >
+          <List size={16} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive("orderedList") ? "bg-muted text-primary" : ""
+          }`}
+          title="Ordered List"
+        >
+          <ListOrdered size={16} />
+        </button>
+        <button
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive("heading", { level: 1 }) ?
+              "bg-muted text-primary"
+            : ""
+          }`}
+          title="H1"
+        >
+          <span className="font-bold text-xs">H1</span>
+        </button>
+        <button
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
+          className={`p-2 rounded hover:bg-muted transition-colors ${
+            editor.isActive("heading", { level: 2 }) ?
+              "bg-muted text-primary"
+            : ""
+          }`}
+          title="H2"
+        >
+          <span className="font-bold text-xs">H2</span>
+        </button>
+
+        <div className="w-px h-6 bg-border mx-1" />
+
+        <button
+          onClick={() => editor.chain().focus().undo().run()}
+          disabled={!editor.can().chain().focus().undo().run()}
+          className="p-2 rounded hover:bg-muted transition-colors disabled:opacity-50"
+          title="Undo"
+        >
+          <Undo size={16} />
+        </button>
+        <button
+          onClick={() => editor.chain().focus().redo().run()}
+          disabled={!editor.can().chain().focus().redo().run()}
+          className="p-2 rounded hover:bg-muted transition-colors disabled:opacity-50"
+          title="Redo"
+        >
+          <Redo size={16} />
+        </button>
+
+        <div className="flex-1" />
+
+        <button
+          onClick={handleOpenPolish}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-medium hover:bg-primary/20 transition-colors"
+        >
+          <Sparkles size={14} />
+          {t("editor.actions.aiPolish")}
         </button>
       </div>
-
-      <div className="w-px h-6 bg-border mx-1" />
-
-      <button
-        onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive("bulletList") ? "bg-muted text-primary" : ""
-        }`}
-        title="Bullet List"
-      >
-        <List size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive("orderedList") ? "bg-muted text-primary" : ""
-        }`}
-        title="Ordered List"
-      >
-        <ListOrdered size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive("heading", { level: 1 }) ?
-            "bg-muted text-primary"
-          : ""
-        }`}
-        title="H1"
-      >
-        <span className="font-bold text-xs">H1</span>
-      </button>
-      <button
-        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-        className={`p-2 rounded hover:bg-muted transition-colors ${
-          editor.isActive("heading", { level: 2 }) ?
-            "bg-muted text-primary"
-          : ""
-        }`}
-        title="H2"
-      >
-        <span className="font-bold text-xs">H2</span>
-      </button>
-
-      <div className="w-px h-6 bg-border mx-1" />
-
-      <button
-        onClick={() => editor.chain().focus().undo().run()}
-        disabled={!editor.can().chain().focus().undo().run()}
-        className="p-2 rounded hover:bg-muted transition-colors disabled:opacity-50"
-        title="Undo"
-      >
-        <Undo size={16} />
-      </button>
-      <button
-        onClick={() => editor.chain().focus().redo().run()}
-        disabled={!editor.can().chain().focus().redo().run()}
-        className="p-2 rounded hover:bg-muted transition-colors disabled:opacity-50"
-        title="Redo"
-      >
-        <Redo size={16} />
-      </button>
-
-      <div className="flex-1" />
-
-      <button className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary rounded-full text-xs font-medium hover:bg-primary/20 transition-colors">
-        <Sparkles size={14} />
-        {t("editor.actions.aiPolish")}
-      </button>
-    </div>
+    </>
   );
 };
 

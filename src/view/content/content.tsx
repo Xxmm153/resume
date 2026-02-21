@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useResumeStore, createNewResume } from "../../store/resumeStore";
 import { gsap } from "gsap";
+import ScrollReveal from "../../components/ScrollReveal";
 import {
   FileText,
   LayoutTemplate,
@@ -174,7 +175,12 @@ const Content = () => {
             </span>
           </div>
           <div
-            className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-muted-foreground hover:bg-primary/5 hover:text-primary cursor-pointer transition-colors ${!isSidebarOpen && "justify-center px-2"}`}
+            onClick={() => navigate("/content/ai-providers")}
+            className={`flex items-center gap-3 px-4 py-3 rounded-2xl cursor-pointer transition-colors ${
+              location.pathname === "/content/ai-providers" ?
+                "bg-primary/10 text-primary"
+              : "text-muted-foreground hover:bg-primary/5 hover:text-primary"
+            } ${!isSidebarOpen && "justify-center px-2"}`}
             title={!isSidebarOpen ? t("content.sidebar.aiProviders") : ""}
           >
             <Bot size={20} className="flex-shrink-0" />
@@ -182,17 +188,6 @@ const Content = () => {
               className={`font-medium transition-all duration-300 ${!isSidebarOpen && "opacity-0 w-0 overflow-hidden"}`}
             >
               {t("content.sidebar.aiProviders")}
-            </span>
-          </div>
-          <div
-            className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-muted-foreground hover:bg-primary/5 hover:text-primary cursor-pointer transition-colors ${!isSidebarOpen && "justify-center px-2"}`}
-            title={!isSidebarOpen ? t("content.sidebar.settings") : ""}
-          >
-            <Settings size={20} className="flex-shrink-0" />
-            <span
-              className={`font-medium transition-all duration-300 ${!isSidebarOpen && "opacity-0 w-0 overflow-hidden"}`}
-            >
-              {t("content.sidebar.settings")}
             </span>
           </div>
         </nav>
@@ -239,129 +234,141 @@ const Content = () => {
         {location.pathname === "/content" ?
           <div className="flex-1 overflow-auto p-8">
             {/* Warning Banner */}
-            <div className="bg-primary-hover border border-primary/20 rounded-2xl p-4 mb-8 flex items-center justify-between">
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2 text-primary font-medium">
-                  <AlertCircle size={18} />
-                  <span>{t("content.warning.title")}</span>
+            <ScrollReveal direction="down" distance={20} delay={0.1}>
+              <div className="bg-primary-hover border border-primary/20 rounded-2xl p-4 mb-8 flex items-center justify-between">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2 text-primary font-medium">
+                    <AlertCircle size={18} />
+                    <span>{t("content.warning.title")}</span>
+                  </div>
+                  <p className="text-primary text-sm font-medium pl-[26px]">
+                    {t("content.warning.text")}
+                  </p>
                 </div>
-                <p className="text-primary text-sm font-medium pl-[26px]">
-                  {t("content.warning.text")}
-                </p>
+                <button className="flex items-center gap-2 px-4 py-2 bg-background border border-border/50 text-primary  text-sm font-medium rounded-xl hover:bg-destructive/5 transition-colors cursor-pointer shadow-sm">
+                  <Settings size={16} />
+                  {t("content.warning.action")}
+                </button>
               </div>
-              <button className="flex items-center gap-2 px-4 py-2 bg-background border border-border/50 text-primary  text-sm font-medium rounded-xl hover:bg-destructive/5 transition-colors cursor-pointer shadow-sm">
-                <Settings size={16} />
-                {t("content.warning.action")}
-              </button>
-            </div>
+            </ScrollReveal>
 
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <h1 className="text-2xl font-bold text-foreground">
-                {t("content.dashboard.title")}
-              </h1>
-              <div className="flex gap-3">
-                <button className="flex items-center gap-2 px-4 py-2 bg-background border border-border rounded-full hover:bg-primary/5 hover:text-primary hover:border-primary transition-colors text-sm font-medium cursor-pointer">
-                  <Upload size={16} />
-                  {t("content.dashboard.importJson")}
-                </button>
-                <button
-                  onClick={handleAddResume}
-                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all text-sm font-medium cursor-pointer shadow-sm"
-                >
-                  <Plus size={16} />
-                  {t("content.dashboard.newResume")}
-                </button>
+            <ScrollReveal direction="up" distance={30} delay={0.2}>
+              <div className="flex items-center justify-between mb-8">
+                <h1 className="text-2xl font-bold text-foreground">
+                  {t("content.dashboard.title")}
+                </h1>
+                <div className="flex gap-3">
+                  <button className="flex items-center gap-2 px-4 py-2 bg-background border border-border rounded-full hover:bg-primary/5 hover:text-primary hover:border-primary transition-colors text-sm font-medium cursor-pointer">
+                    <Upload size={16} />
+                    {t("content.dashboard.importJson")}
+                  </button>
+                  <button
+                    onClick={handleAddResume}
+                    className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-all text-sm font-medium cursor-pointer shadow-sm"
+                  >
+                    <Plus size={16} />
+                    {t("content.dashboard.newResume")}
+                  </button>
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {/* Create New Card */}
-              <div
-                onClick={handleAddResume}
-                className="aspect-[4/3] rounded-2xl border-2 border-dashed border-border hover:border-primary hover:bg-primary/5 cursor-pointer transition-all flex flex-col items-center justify-center gap-4 group bg-card/50"
-              >
-                <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:scale-110 transition-all">
-                  <Plus size={24} />
-                </div>
-                <div className="text-center">
-                  <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                    {t("content.dashboard.createNew")}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {t("content.dashboard.createNewDesc")}
-                  </p>
-                </div>
-              </div>
-
-              {/* Existing Resume Cards */}
-              {resumes.map((resume) => (
+              <ScrollReveal direction="up" distance={40} delay={0.3}>
                 <div
-                  key={resume.id}
-                  data-resume-id={resume.id}
-                  className="aspect-[4/3] rounded-2xl border border-border bg-card hover:shadow-lg transition-all flex flex-col overflow-hidden group"
+                  onClick={handleAddResume}
+                  className="aspect-[4/3] rounded-2xl border-2 border-dashed border-border hover:border-primary hover:bg-primary/5 cursor-pointer transition-all flex flex-col items-center justify-center gap-4 group bg-card/50"
                 >
-                  <div className="flex-1 flex flex-col items-center justify-center p-6 bg-muted/30 relative overflow-hidden">
-                    {/* File Icon */}
-                    <div className="w-16 h-20 border-2 border-muted-foreground/20 bg-background rounded-xl flex items-center justify-center mb-4 shadow-sm group-hover:-translate-y-1 transition-transform duration-300">
-                      <FileText
-                        size={32}
-                        className="text-muted-foreground/60"
-                      />
-                    </div>
-
-                    {editingId === resume.id ?
-                      <input
-                        autoFocus
-                        type="text"
-                        value={editValue}
-                        onChange={(e) => setEditValue(e.target.value)}
-                        onBlur={handleSaveEdit}
-                        onKeyDown={handleKeyDown}
-                        onClick={(e) => e.stopPropagation()}
-                        className="font-bold text-lg text-foreground text-center bg-background border border-primary rounded px-2 py-0.5 w-full focus:outline-none focus:ring-2 focus:ring-primary/20"
-                      />
-                    : <div className="flex items-center gap-2 max-w-full px-2">
-                        <h3
-                          className="font-bold text-lg text-foreground truncate cursor-text hover:text-primary transition-colors"
-                          onClick={(e) => handleStartEdit(e, resume)}
-                          title={t(
-                            "content.dashboard.clickToRename",
-                            "Click to rename",
-                          )}
-                        >
-                          {resume.title}
-                        </h3>
-                        <button
-                          onClick={(e) => handleStartEdit(e, resume)}
-                          className="opacity-0 group-hover:opacity-100 p-1 text-muted-foreground hover:text-primary transition-all"
-                        >
-                          <Pencil size={12} />
-                        </button>
-                      </div>
-                    }
+                  <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center text-muted-foreground group-hover:text-primary group-hover:scale-110 transition-all">
+                    <Plus size={24} />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {t("content.dashboard.createNew")}
+                    </h3>
                     <p className="text-sm text-muted-foreground mt-1">
-                      {t("content.dashboard.created")} {resume.date}
+                      {t("content.dashboard.createNewDesc")}
                     </p>
                   </div>
-                  <div className="h-12 border-t border-border flex items-center justify-between  bg-card ">
-                    <button
-                      onClick={() => handleEditResume(resume.id)}
-                      className="h-full w-1/2 flex items-center justify-center gap-2  text-sm font-medium text-foreground  hover:bg-secondary/80 transition-colors cursor-pointer"
-                    >
-                      <Pencil size={14} />
-                      {t("content.dashboard.edit")}
-                    </button>
-                    <button
-                      onClick={(e) => handleDeleteResume(e, resume.id)}
-                      className=" h-full  w-1/2 flex items-center justify-center gap-2 text-sm font-medium text-destructive border-l-1 border-[#292929]  hover:bg-destructive/20 transition-colors cursor-pointer"
-                    >
-                      <Trash2 size={14} />
-                      {t("content.dashboard.delete")}
-                    </button>
-                  </div>
                 </div>
+              </ScrollReveal>
+
+              {/* Existing Resume Cards */}
+              {resumes.map((resume, index) => (
+                <ScrollReveal
+                  key={resume.id}
+                  direction="up"
+                  distance={40}
+                  delay={0.3 + (index + 1) * 0.1}
+                >
+                  <div
+                    data-resume-id={resume.id}
+                    className="aspect-[4/3] rounded-2xl border border-border bg-card hover:shadow-lg transition-all flex flex-col overflow-hidden group"
+                  >
+                    <div className="flex-1 flex flex-col items-center justify-center p-6 bg-muted/30 relative overflow-hidden">
+                      {/* File Icon */}
+                      <div className="w-16 h-20 border-2 border-muted-foreground/20 bg-background rounded-xl flex items-center justify-center mb-4 shadow-sm group-hover:-translate-y-1 transition-transform duration-300">
+                        <FileText
+                          size={32}
+                          className="text-muted-foreground/60"
+                        />
+                      </div>
+
+                      {editingId === resume.id ?
+                        <input
+                          autoFocus
+                          type="text"
+                          value={editValue}
+                          onChange={(e) => setEditValue(e.target.value)}
+                          onBlur={handleSaveEdit}
+                          onKeyDown={handleKeyDown}
+                          onClick={(e) => e.stopPropagation()}
+                          className="font-bold text-lg text-foreground text-center bg-background border border-primary rounded px-2 py-0.5 w-full focus:outline-none focus:ring-2 focus:ring-primary/20"
+                        />
+                      : <div className="flex items-center gap-2 max-w-full px-2">
+                          <h3
+                            className="font-bold text-lg text-foreground truncate cursor-text hover:text-primary transition-colors"
+                            onClick={(e) => handleStartEdit(e, resume)}
+                            title={t(
+                              "content.dashboard.clickToRename",
+                              "Click to rename",
+                            )}
+                          >
+                            {resume.title}
+                          </h3>
+                          <button
+                            onClick={(e) => handleStartEdit(e, resume)}
+                            className="opacity-0 group-hover:opacity-100 p-1 text-muted-foreground hover:text-primary transition-all"
+                          >
+                            <Pencil size={12} />
+                          </button>
+                        </div>
+                      }
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {t("content.dashboard.created")} {resume.date}
+                      </p>
+                    </div>
+                    <div className="h-12 border-t border-border flex items-center justify-between  bg-card ">
+                      <button
+                        onClick={() => handleEditResume(resume.id)}
+                        className="h-full w-1/2 flex items-center justify-center gap-2  text-sm font-medium text-foreground  hover:bg-secondary/80 transition-colors cursor-pointer"
+                      >
+                        <Pencil size={14} />
+                        {t("content.dashboard.edit")}
+                      </button>
+                      <button
+                        onClick={(e) => handleDeleteResume(e, resume.id)}
+                        className=" h-full  w-1/2 flex items-center justify-center gap-2 text-sm font-medium text-destructive border-l-1 border-[#292929]  hover:bg-destructive/20 transition-colors cursor-pointer"
+                      >
+                        <Trash2 size={14} />
+                        {t("content.dashboard.delete")}
+                      </button>
+                    </div>
+                  </div>
+                </ScrollReveal>
               ))}
             </div>
           </div>

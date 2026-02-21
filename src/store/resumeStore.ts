@@ -41,7 +41,14 @@ export interface Resume {
   sections: ResumeSection[];
 }
 
+export interface AIConfig {
+  provider: "doubao" | "openai" | "deepseek" | "moonshot";
+  model?: string;
+}
+
 interface ResumeState {
+  aiConfig: AIConfig;
+  updateAIConfig: (config: Partial<AIConfig>) => void;
   resumes: Resume[];
   addResume: (resume: Resume) => void;
   deleteResume: (id: string) => void;
@@ -156,6 +163,12 @@ const DEFAULT_SECTIONS: ResumeSection[] = [
 export const useResumeStore = create<ResumeState>()(
   persist(
     (set, get) => ({
+      aiConfig: {
+        provider: "doubao",
+        model: "ep-20250219195707-q588r",
+      },
+      updateAIConfig: (config) =>
+        set((state) => ({ aiConfig: { ...state.aiConfig, ...config } })),
       resumes: [
         {
           id: "892c1f",

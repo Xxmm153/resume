@@ -1,4 +1,27 @@
 {
+  "ai": {
+    "settings": {
+      "title": "AI 服务设置",
+      "subtitle": "选择为您提供简历润色功能的 AI 服务商。",
+      "provider": "AI 服务商",
+      "providers": {
+        "doubao": {
+          "desc": "字节跳动出品，专为中文语境优化。"
+        },
+        "openai": {
+          "desc": "全球领先的 AI 模型，通用性强。"
+        },
+        "deepseek": {
+          "desc": "深度求索开源模型，代码能力与逻辑推理能力强。"
+        },
+        "moonshot": {
+          "desc": "Kimi 智能助手，擅长长文本处理。"
+        }
+      },
+      "note": "注意：",
+      "noteDetail": "目前仅 Doubao 已在后端演示环境中完整配置。其他服务商仅作为演示占位，将返回模拟数据。"
+    }
+  },
   "app": {
     "name": "Ximo Resume"
   },
@@ -134,9 +157,24 @@
       "exportImage": "导出图片",
       "switchLang": "切换语言",
       "aiPolish": "AI 润色",
+      "polishing": "AI 润色中...",
+      "polishFailed": "润色失败，请检查后端服务",
       "confirmDelete": "确认删除该模块吗？",
       "exportSuccess": "导出成功",
-      "exportFailed": "导出失败，请重试"
+      "exportFailed": "导出失败，请重试",
+      "copy": "复制",
+      "regenerate": "重新生成",
+      "retry": "重试",
+      "cancel": "取消",
+      "replace": "替换原文"
+    },
+    "modal": {
+      "original": "原始内容",
+      "polished": "AI 建议",
+      "waiting": "等待 AI 响应中..."
+    },
+    "error": {
+      "title": "错误"
     },
     "templates": {
       "switch": "切换模板",
